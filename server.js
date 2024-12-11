@@ -24,7 +24,7 @@ app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes (example)
+// Routes
 app.use('/user', userRoutes);
 
 // Start the server

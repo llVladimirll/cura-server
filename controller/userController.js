@@ -14,7 +14,7 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
             name,
@@ -55,6 +55,8 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: isUser._id, email: isUser.email }, process.env.JWT_SECRET
         );
+
+        await redis.set(isUser._id.toString(), token);
 
         // Respond with user details and token
         return res.status(200).json({ message: 'Login successful', token });
