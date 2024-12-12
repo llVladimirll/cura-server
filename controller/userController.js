@@ -72,13 +72,12 @@ const logout = async (req, res) => {
     try {
         // Ensure the userId is available in the request
         const userId = req.user; // Assuming verifyToken middleware attaches userId to req.user
-
         if (!userId) {
             return res.status(401).json({ message: 'User not authenticated' });
         }
 
         // Remove the token from Redis
-        const result = await redis.del(userId.toString());
+        const result = await redis.del(userId);
 
         if (result === 1) {
             return res.status(200).json({ message: 'Logout successful' });

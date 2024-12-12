@@ -17,14 +17,15 @@ const verifyToken = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Check if the token is cached in Redis
-        const cachedToken = await redis.get(decoded.userId.toString());
+        const cachedToken = await redis.get(decoded.id);
+        console.log('cachedToken:', cachedToken);
 
         if (!cachedToken || cachedToken !== token) {
             return res.status(401).json({ message: 'Invalid or expired token' });
         }
 
         // Attach user to the request object
-        req.user = decoded.userId;
+        req.user = decoded.id;
         next(); // Proceed to the next middleware or route handler
     } catch (error) {
         console.error('Token verification failed:', error);
