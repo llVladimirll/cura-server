@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required'], // Custom error message
         minlength: [6, 'Password must be at least 6 characters long'],
     },
-    createdAt: {
+    date: {
         type: Date,
         default: Date.now, // Timestamp when the user is created
     },

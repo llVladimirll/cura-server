@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const { config } = require('dotenv');
 const mongoose = require('mongoose');
 const userRoutes = require('./router/userRoutes');
+const problemRoutes = require('./router/problemRoutes');
 
 config();
 const app = express();
@@ -25,7 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
+app.use('/problems', problemRoutes );
 
 // Start the server
 app.listen(process.env.PORT, () => {
