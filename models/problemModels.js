@@ -53,6 +53,10 @@ const problemSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    expiryDate : {
+        type: Date,
+        required: [true, 'Expiry Date is required'], // Custom error message
     }
 }, { timestamps: true });
 
