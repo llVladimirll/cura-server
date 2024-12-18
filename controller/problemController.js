@@ -45,26 +45,37 @@ const createProblem = async (req, res) => {
 // Get all problems
 const getProblems = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query; // Get page and limit from query parameters
+        const { page = 1, limit = 10 } = req.query;
 
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+
+        // Fetch problems with pagination
         const problems = await Problem.find()
             .select('title imageUrl user donationNeeded donationReceived volunteerNeeded volunteerReceived')
             .populate('user', 'name')
-            .skip((page - 1) * limit)
-            .limit(limit);
+            .skip((pageNum - 1) * limitNum)
+            .limit(limitNum);
 
-        const formattedProblems = problems.map((problem) => ({
-            ...problem.toObject(),
-            donationNeeded: formatRupiah(problem.donationNeeded),
+        const totalProblems = await Problem.countDocuments();
+
+        // Format problems for response
+        const formattedProblems = problems.map(problem => ({
+            id: problem._id,
+            title: problem.title,
+            imageUrl: problem.imageUrl,
+            donationNeeded: problem.donationNeeded,
+            donationReceived: problem.donationReceived,
+            volunteerNeeded: problem.volunteerNeeded,
+            volunteerReceived: problem.volunteerReceived,
+            user: problem.user ? { id: problem.user._id, name: problem.user.name } : null
         }));
-
-        const totalProblems = await Problem.countDocuments(); // Get total number of problems
 
         res.status(200).json({
             totalProblems,
-            currentPage: parseInt(page),
-            totalPages: Math.ceil(totalProblems / limit),
-            problems: formattedProblems,
+            currentPage: pageNum,
+            totalPages: Math.ceil(totalProblems / limitNum),
+            problems: formattedProblems
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
