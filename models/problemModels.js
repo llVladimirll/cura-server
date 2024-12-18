@@ -41,15 +41,15 @@ const problemSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    volunteerUser:
-        [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },],
-    donationUser:[{
-       type : mongoose.Schema.Types.ObjectId,
-        ref : 'Donation'
-    }],
+    // volunteerUser:
+    //     [{
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'Volunteer'
+    //     },],
+    // donationUser:[{
+    //    type : mongoose.Schema.Types.ObjectId,
+    //     ref : 'Donation'
+    // }],
     createdAt: {
         type: Date,
         default: Date.now,

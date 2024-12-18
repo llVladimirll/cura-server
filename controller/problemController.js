@@ -48,10 +48,10 @@ const getProblems = async (req, res) => {
         const { page = 1, limit = 10 } = req.query; // Get page and limit from query parameters
 
         const problems = await Problem.find()
-            .select('title imageUrl user donationNeeded') // Include donationNeeded in the selection
-            .populate('user', 'name') // Populate userId with specific fields
-            .skip((page - 1) * limit) // Skip documents for pagination
-            .limit(limit); // Limit the number of documents returned
+            .select('title imageUrl user donationNeeded donationReceived volunteerNeeded volunteerReceived')
+            .populate('user', 'name')
+            .skip((page - 1) * limit)
+            .limit(limit);
 
         const formattedProblems = problems.map((problem) => ({
             ...problem.toObject(),
@@ -71,4 +71,23 @@ const getProblems = async (req, res) => {
     }
 };
 
-module.exports = { createProblem, getProblems };
+const detailProblem = async (req, res) => {
+    try {
+        const { id } = req.params;  // Extract the problem ID from URL parameters
+
+        // Find the problem by ID in the database
+        const problem = await Problem.findById(id).populate('user', 'name');
+
+        if (!problem) {
+            return res.status(404).json({ message: 'Problem not found' });
+        }
+
+        res.status(200).json(problem);
+    } catch (error) {
+        console.error('Error fetching problem details:', error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
+module.exports = { createProblem, getProblems, detailProblem };
