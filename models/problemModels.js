@@ -39,17 +39,18 @@ const problemSchema = new mongoose.Schema({
     },
     volunteerReceived: {
         type: Number,
-        default: 0,
+        default: 0
     },
-    // volunteerUser:
-    //     [{
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Volunteer'
-    //     },],
-    // donationUser:[{
-    //    type : mongoose.Schema.Types.ObjectId,
-    //     ref : 'Donation'
-    // }],
+    volunteerUser: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: []
+    }],
+    donationUser:[{
+       type : mongoose.Schema.Types.ObjectId,
+        ref : 'Donation',
+        default: []
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

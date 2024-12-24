@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const donationSchema = new mongoose.Schema({
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -16,7 +16,12 @@ const donationSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
-    }
+    },
+    paymentMethod: {
+        type: String,
+        required: [true, 'Payment method is required'],
+    },
+
 }, { timestamps: true });
 
 const Donation = mongoose.model('Donation', donationSchema);

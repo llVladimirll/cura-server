@@ -15,9 +15,9 @@ const verifyToken = async (req, res, next) => {
     try {
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('decoded:', decoded.id);
+        console.log('decoded:', decoded.userId);
 
-        const userId = decoded.id;
+        const userId = decoded.userId;
         const cachedToken = await redis.get(userId);
         console.log('cachedToken:', cachedToken);
 

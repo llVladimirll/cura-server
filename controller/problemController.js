@@ -8,7 +8,7 @@ const formatRupiah = (number) => {
 
 // Create a problem
 const createProblem = async (req, res) => {
-    const { title, description, location, donationNeeded, volunteerNeeded } = req.body;
+    const { title, description, location, donationNeeded, volunteerNeeded, expiryDate} = req.body;
     const user = req.user;
 
     try {
@@ -27,6 +27,7 @@ const createProblem = async (req, res) => {
             location,
             donationNeeded,
             volunteerNeeded,
+            expiryDate
         });
 
         const savedProblem = await newProblem.save();
